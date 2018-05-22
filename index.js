@@ -1,4 +1,4 @@
-class App = {
+class App {
     constructor(selectors) {
         this.tasks = []
         this.max = 0
@@ -14,11 +14,11 @@ class App = {
 
     removeTask(task, ev) {
         //remove from the DOM
-        const item = ev.target.closest('.flick')
+        const item = ev.target.closest('.task')
         item.remove()
 
         //remove from the array
-        const i = this.flicks.indexOf(flick)
+        const i = this.tasks.indexOf(task)
         this.tasks.splice(i, 1)
     }
 
@@ -29,10 +29,10 @@ class App = {
 
     toggleEditable(task, ev) {
         const item = ev.target.closest('.task')
-        const btn = item.querySelector('.taskName')
-        const nameField = otem.querySelector('.taskName')
+        const btn = item.querySelector('.edit.button')
+        const nameField = item.querySelector('.taskName')
 
-        if (nameFeild.isContentEditable) {
+        if (nameField.isContentEditable) {
             //make it no longer editable
             nameField.contentEditable = false
             btn.textContent = 'edit'
@@ -42,20 +42,20 @@ class App = {
             task.name = nameField.textContent
         } else {
             //make is editable
-            nameFeild.contentEditable = true
+            nameField.contentEditable = true
             nameField.focus()
             btn.textContent = 'save'
             btn.classList.add('sucess')
         }
     }
 
-    saveONEnter (task, ev) {
+    saveOnEnter (task, ev) {
         if (ev.key === 'Enter'){
-            this.toggleEditable(flick, ev)
+            this.toggleEditable(task, ev)
         }
     }
     renderListItem(task){
-        const item =this.template.cloneNode(true)
+        const item = this.template.cloneNode(true)
         item.classList.remove('template')
         item.dataset.id = task.id
         
@@ -88,20 +88,19 @@ class App = {
     }
 
     handleSubmit(ev) {
-        const f= ev.target
+        const f = ev.target
         const task = {
-            id:++this.max, 
+            id: ++this.max, 
             name: f.taskName.value,
             fav: false,
         }
-
-        this.flicks.unshift(task)
+        this.tasks.unshift(task)
 
         const item = this.renderListItem(task)
         this.list.insertBefore(item, this.list.firstElementChild)
         
         f.reset()
-    }, 
+    }
 }
 
 const app = new App({
